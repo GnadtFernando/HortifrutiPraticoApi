@@ -14,7 +14,7 @@ export default class extends BaseSchema {
         .inTable("users")
         .onDelete("CASCADE");
       table.string("nome", 255).notNullable();
-      table.string("logo", 15).nullable();
+      table.string("logo", 255).nullable();
       table.boolean("bloqueado").notNullable().defaultTo(false);
       table.boolean("online").notNullable().defaultTo(false);
       table.timestamp("updated_at").nullable();
