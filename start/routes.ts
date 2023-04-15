@@ -19,6 +19,13 @@ Route.get(
 Route.group(() => {
   Route.get("/auth/me", "AuthController.me");
 
+  Route.resource("/enderecos", "EnderecosController").only([
+    "store",
+    "index",
+    "update",
+    "destroy",
+  ]);
+
   Route.put("/cliente/editar", "ClientesController.update");
 }).middleware("auth");
 
