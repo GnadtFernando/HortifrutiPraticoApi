@@ -62,7 +62,7 @@ export default class PedidosController {
       }
 
       valorTotal = estabCidade
-        ? valorTotal + estabCidade.custo_entrega
+        ? valorTotal + Number(estabCidade.custo_entrega)
         : valorTotal;
 
       valorTotal = parseFloat(valorTotal.toFixed(2));
@@ -109,7 +109,7 @@ export default class PedidosController {
       return response.ok(pedido);
     } catch (error) {
       await trx.rollback();
-      return response.badRequest("Algo deu errado " + error);
+      return response.badRequest("Something in the request is wrong " + error);
     }
   }
 
@@ -123,7 +123,7 @@ export default class PedidosController {
       .preload("pedido_status", (statusQuery) => {
         statusQuery.preload("status");
       })
-      .orderBy("pedido_id", "desc");
+      .orderBy("id", "desc");
 
     return response.ok(pedidos);
   }
