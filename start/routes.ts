@@ -16,6 +16,8 @@ Route.get(
   "CidadesController.estabelecimentos"
 );
 
+Route.get("/estabelecimentos/:id", "EstabelecimentosController.show");
+
 Route.group(() => {
   Route.get("/auth/me", "AuthController.me");
 
@@ -25,6 +27,11 @@ Route.group(() => {
     "update",
     "destroy",
   ]);
+
+  Route.post("/pedidos", "PedidosController.store");
+  Route.get("/pedidos", "PedidosController.index");
+
+  Route.get("/estabelecimento/pedidos", "EstabelecimentosController.pedidos");
 
   Route.put("/cliente/editar", "ClientesController.update");
 }).middleware("auth");
