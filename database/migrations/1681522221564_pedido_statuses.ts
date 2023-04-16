@@ -18,8 +18,8 @@ export default class extends BaseSchema {
         .references("id")
         .inTable("statuses");
       table.string("observacao").nullable();
-      table.timestamp("created_at").notNullable();
-      table.primary(["pedido_id, status_id"]);
+      table.timestamp("created_at").nullable();
+      table.primary(["pedido_id", "status_id"]);
     });
   }
 

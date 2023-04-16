@@ -24,7 +24,7 @@ export default class Produto extends BaseModel {
   public preco: number;
 
   @column()
-  public unidade: number;
+  public unidade: string;
 
   @column()
   public categoria_id: number;

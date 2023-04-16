@@ -11,7 +11,7 @@ export default class extends BaseSchema {
         .unsigned()
         .notNullable()
         .references("id")
-        .inTable("cidade");
+        .inTable("cidades");
       table.string("rua").notNullable();
       table.string("numero").nullable();
       table.string("bairro").notNullable();
