@@ -17,7 +17,7 @@ export default class extends BaseSchema {
         .notNullable()
         .references("id")
         .inTable("estabelecimentos");
-      table.decimal("custo_entrega", 8, 2).notNullable();
+      table.decimal("custo_entrega", 8, 2).notNullable().defaultTo(0);
       table.primary(["cidade_id", "estabelecimento_id"]);
     });
   }

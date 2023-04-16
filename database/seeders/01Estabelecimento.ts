@@ -65,7 +65,7 @@ export default class extends BaseSeeder {
       await CidadesEstabelecimento.create({
         cidade_id: faker.datatype.number({ min: 1, max: 2 }),
         estabelecimento_id: i,
-        custo_entrega: 6.53,
+        // custo_entrega: 6.53,
       });
     }
   }
