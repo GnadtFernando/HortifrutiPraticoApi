@@ -36,7 +36,11 @@ export default class CategoriaProdutoSeeder extends BaseSeeder {
           nome: faker.commerce.productName(),
           imagem: faker.image.food(300, 300),
           descricao: faker.lorem.sentence(),
-          preco: 3.91,
+          preco: faker.datatype.number({
+            min: 5,
+            max: 100,
+            precision: 0.5,
+          }),
           categoria_id: categoria.id,
           posicao: 3,
           unidade: "UN",

@@ -62,7 +62,7 @@ export default class PedidosController {
       }
 
       valorTotal = estabCidade
-        ? valorTotal + Number(estabCidade.custo_entrega)
+        ? (valorTotal += estabCidade.custo_entrega)
         : valorTotal;
 
       valorTotal = parseFloat(valorTotal.toFixed(2));
