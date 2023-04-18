@@ -10,7 +10,7 @@ export default class Categoria extends BaseModel {
   public nome: string;
 
   @column()
-  public descricao: string;
+  public descricao: string | null;
 
   @column()
   public posicao: number;
