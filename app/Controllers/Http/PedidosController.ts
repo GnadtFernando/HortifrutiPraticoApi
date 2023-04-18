@@ -171,7 +171,7 @@ export default class PedidosController {
 
     const pedidoStatus = await PedidoStatus.query()
       .select("status_id")
-      .where("pedido_id", Number(pedido.id))
+      .where("pedido_id", pedido.id)
       .orderBy("status_id", "desc")
       .firstOrFail();
 

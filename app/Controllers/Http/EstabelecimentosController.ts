@@ -7,31 +7,27 @@ import Pedido from "App/Models/Pedido";
 export default class EstabelecimentosController {
   public async pedidos({ response, auth }: HttpContextContract) {
     const userAuth = await auth.use("api").authenticate();
-    const estabeleicmento = await Estabelecimento.findByOrFail(
+    const estabelecimento = await Estabelecimento.findByOrFail(
       "user_id",
       userAuth.id
     );
-
     const pedidos = await Pedido.query()
-      .where("estabelecimento_id", estabeleicmento.id)
+      .where("estabelecimento_id", estabelecimento.id)
       .preload("cliente")
       .preload("pedido_status", (statusQuery) => {
         statusQuery.preload("status");
       })
       .orderBy("id", "desc");
-
     return response.ok(pedidos);
   }
 
-  public async show({ response, params }: HttpContextContract) {
+  public async show({ params, response }: HttpContextContract) {
     const idEstab: number = params.id;
-
     let arrayCidades: any = [];
     const cidades = await CidadesEstabelecimento.query().where(
       "estabelecimento_id",
       idEstab
     );
-
     for await (const cidade of cidades) {
       const cidade_ = await Cidade.findByOrFail("id", cidade.cidade_id);
       arrayCidades.push({
@@ -40,7 +36,6 @@ export default class EstabelecimentosController {
         custo_entrega: cidade.custo_entrega,
       });
     }
-
     const estabelecimento = await Estabelecimento.query()
       .where("id", idEstab)
       .preload("categorias", (categoriasQuery) => {
@@ -48,7 +43,6 @@ export default class EstabelecimentosController {
       })
       .preload("meiospagamentos")
       .firstOrFail();
-
     return response.ok({
       id: estabelecimento.id,
       nome: estabelecimento.nome,
