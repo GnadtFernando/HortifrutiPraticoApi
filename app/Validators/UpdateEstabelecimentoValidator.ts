@@ -19,7 +19,7 @@ export default class UpdateEstabelecimentoValidator {
     }),
     online: schema.boolean.optional(),
     email: schema.string.optional({ trim: true }, [
-      rules.email,
+      rules.email(),
       rules.unique({
         table: "users",
         column: "email",
