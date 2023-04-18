@@ -11,7 +11,7 @@ import User from "App/Models/User";
 export const { actions } = Bouncer.define(
   "UserIsEstabelecimento",
   (user: User) => {
-    const typesAlloed = ["estabelecimento"];
+    const typesAlloed = ["estabelecimentos"];
     return typesAlloed.includes(user.tipo);
   }
 );

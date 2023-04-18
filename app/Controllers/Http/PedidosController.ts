@@ -64,7 +64,7 @@ export default class PedidosController {
       }
 
       valorTotal = estabCidade
-        ? (valorTotal += estabCidade.custo_entrega)
+        ? valorTotal + Number(estabCidade.custo_entrega)
         : valorTotal;
 
       valorTotal = parseFloat(valorTotal.toFixed(2));
@@ -154,7 +154,7 @@ export default class PedidosController {
     return response.ok(pedido);
   }
 
-  public async update({
+  public async statuses({
     params,
     request,
     bouncer,
@@ -171,20 +171,24 @@ export default class PedidosController {
 
     const pedidoStatus = await PedidoStatus.query()
       .select("status_id")
-      .where("pedido_id", pedido.id)
+      .where("pedido_id", Number(pedido.id))
       .orderBy("status_id", "desc")
       .firstOrFail();
 
-    if (payload.status_id <= pedidoStatus.status_id) {
+    // Regras de negócio
+    // pedidoStatus.status_id == 4
+
+    if (payload.status_id <= pedidoStatus!.status_id) {
       return response.badRequest(
-        `Status enviado inválido. Status_id atual: ${pedidoStatus.status_id}`
+        `Status enviado inválido. Status_id atual: ${pedidoStatus!.status_id}`
       );
     }
-    const status = await Status.findOrFail(payload.status_id);
+
+    const status = await Status.findByOrFail("id", payload.status_id);
 
     await PedidoStatus.create({
-      pedido_id: pedido.id,
-      status_id: payload.status_id,
+      pedido_id: Number(pedido.id),
+      status_id: Number(payload.status_id),
     });
 
     return response.ok(`Pedido ${pedido.hash_id} foi ${status.status}`);

@@ -34,6 +34,8 @@ Route.group(() => {
 
   Route.get("/estabelecimento/pedidos", "EstabelecimentosController.pedidos");
 
+  Route.post("/pedidos/:hash_id/statuses", "PedidosController.statuses");
+
   Route.put("/cliente/editar", "ClientesController.update");
 
   Route.resource("/estabelecimento/categorias", "CategoriasController").only([
