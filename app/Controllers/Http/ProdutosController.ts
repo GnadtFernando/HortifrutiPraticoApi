@@ -5,6 +5,29 @@ import Produto from "App/Models/Produto";
 import { DateTime } from "luxon";
 
 export default class ProdutosController {
+  public async index({ response, bouncer, request }: HttpContextContract) {
+    if (request.input("categoria_id") >= 1) {
+      await bouncer.authorize("UserIsEstabelecimento");
+      await bouncer
+        .with("ProdutoPolicy")
+        .authorize("isOwner", request.input("categoria_id"));
+
+      const produtos = await Produto.query()
+        // .if(request.input("ativo"), (builder) => {
+        //   builder.where("ativo", request.input("ativo"));
+        // })
+        .if(request.input("categoria_id"), (builder) => {
+          builder.where("categoria_id", request.input("categoria_id"));
+        })
+        .whereNull("deleted_at");
+
+      return response.ok(produtos);
+      // .paginate(page, limit);
+    } else {
+      return response.badRequest("A categoria_id é obrigatória");
+    }
+  }
+
   public async store({ request, response, bouncer }: HttpContextContract) {
     await bouncer.authorize("UserIsEstabelecimento");
 
@@ -85,5 +108,24 @@ export default class ProdutosController {
     produto.deletedAt = DateTime.local();
     await produto.save();
     return response.ok(produto);
+  }
+
+  public async removeImage({ response, bouncer, params }: HttpContextContract) {
+    await bouncer.authorize("UserIsEstabelecimento");
+
+    const produto = await Produto.findOrFail(params.id);
+
+    await bouncer
+      .with("ProdutoPolicy")
+      .authorize("isOwner", produto.categoria_id);
+
+    if (produto.imagem) {
+      const file = produto.imagem.split("/").filter(Boolean).pop();
+      if (file?.length) await Drive.delete(file);
+
+      produto.imagem = null;
+      await produto.save();
+    }
+    return response.noContent();
   }
 }
