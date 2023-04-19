@@ -11,7 +11,7 @@ export default class extends BaseSchema {
       table.string("imagem").nullable();
       table.decimal("preco", 10, 2).notNullable();
       table.string("unidade", 3).notNullable();
-      table.string("posicao").notNullable();
+      table.string("posicao").notNullable().defaultTo(1);
       table.boolean("ativo").notNullable().defaultTo(true);
       table
         .integer("categoria_id")
