@@ -48,7 +48,12 @@ Route.group(() => {
 
   Route.delete(
     "/estabelecimento/produtos/:id/imagem",
-    "ProdutoController.removeImagem"
+    "ProdutosController.removeImagem"
+  );
+
+  Route.delete(
+    "/estabelecimento/logo",
+    "EstabelecimentosController.removeLogo"
   );
 
   Route.resource("/estabelecimento/produtos", "ProdutosController").only([

@@ -110,7 +110,11 @@ export default class ProdutosController {
     return response.ok(produto);
   }
 
-  public async removeImage({ response, bouncer, params }: HttpContextContract) {
+  public async removeImagem({
+    response,
+    bouncer,
+    params,
+  }: HttpContextContract) {
     await bouncer.authorize("UserIsEstabelecimento");
 
     const produto = await Produto.findOrFail(params.id);

@@ -9,6 +9,7 @@ import {
 } from "@ioc:Adonis/Lucid/Orm";
 import Categoria from "./Categoria";
 import MeiosPagamento from "./MeiosPagamento";
+import Env from "@ioc:Adonis/Core/Env";
 
 export default class Estabelecimento extends BaseModel {
   @column({ isPrimary: true })
@@ -20,7 +21,9 @@ export default class Estabelecimento extends BaseModel {
   @column()
   public nome: string;
 
-  @column()
+  @column({
+    consume: (value) => (value == null ? value : Env.get("API_URL") + value),
+  })
   public logo: string | null;
 
   @column()
