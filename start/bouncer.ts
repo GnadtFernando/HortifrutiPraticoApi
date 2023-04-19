@@ -18,4 +18,5 @@ export const { actions } = Bouncer.define(
 
 export const { policies } = Bouncer.registerPolicies({
   PedidoPolicy: () => import("App/Policies/PedidoPolicy"),
+  ProdutoPolicy: () => import("App/Policies/ProdutoPolicy"),
 });

@@ -42,7 +42,9 @@ export default class EstabelecimentosController {
     const estabelecimento = await Estabelecimento.query()
       .where("id", idEstab)
       .preload("categorias", (categoriasQuery) => {
-        categoriasQuery.preload("produtos");
+        categoriasQuery.preload("produtos", (produtosQuery) => {
+          produtosQuery.whereNull("deleted_at");
+        });
       })
       .preload("meiospagamentos")
       .firstOrFail();

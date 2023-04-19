@@ -45,6 +45,12 @@ Route.group(() => {
     "update",
     "destroy",
   ]);
+
+  Route.resource("/produtos", "ProdutosController").only([
+    "store",
+    "update",
+    "destroy",
+  ]);
 }).middleware("auth");
 
 Route.get("/", async () => {
